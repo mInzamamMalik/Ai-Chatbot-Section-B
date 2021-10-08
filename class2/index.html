@@ -9,24 +9,155 @@
 </head>
 
 <body>
-    <h1>class 2</h1>
-    num1: <input type="number" id="num1">
-    <br>
-    num2: <input type="number" id="num2">
-    <br>
-    <button onclick="myfunction()">Do Sum</button>
-    <br>
-    <h1 id="result"> </h1>
-    
-    <script>
-        function myfunction() {
-            let num1 = document.getElementById("num1").value
-            let num2 = document.getElementById("num2").value
 
-            let result = Number(num1) + Number(num2);
-            // console.log("result: ", result);
-            document.getElementById("result").innerText = result
+    <h1 id="result"></h1>
+    <script>
+
+        // let num1 = 5;
+        // let num2 = num1
+
+        // console.log("num1: ", num1);
+        // console.log("num2: ", num2);
+
+        // num1++
+        // num2--
+
+        // console.log("num1: ", num1);
+        // console.log("num2: ", num2);
+
+
+        // let arr1 = [2, 4, 8];
+        // let arr2 = arr1;
+        // let arr3 = arr2
+
+        // // let arr4 = [].concat(arr1)
+        // let arr4 = [...arr1]
+
+        // console.log("arr1: ", arr1)
+        // console.log("arr2: ", arr2)
+
+        // arr1.push(10)
+        // arr2.push(12)
+        // arr3.push(14)
+        // arr4.push(1)
+
+        // console.log("arr1: ", arr1)
+        // console.log("arr2: ", arr2)
+        // console.log("arr3: ", arr3)
+        // console.log("arr4: ", arr4)
+
+
+        // let obj1 = {
+        //     name: "malik",
+        //     school: "abc",
+        //     subject: "science"
+        // }
+        // // let obj2 = Object.assign({}, obj1);
+        // let obj2 = { ...obj1 };
+
+        // console.log("obj1: ", obj1);
+        // console.log("obj2: ", obj2);
+
+        // obj1.name = "John"
+
+        // console.log("obj1: ", obj1);
+        // console.log("obj2: ", obj2);
+
+
+
+        // let temprature = 25;
+
+        // if (temprature == 25) {
+        //     alert("dont carry jacket");
+        // } else {
+        //     alert("carry jacket")
+        // }
+
+
+        // // chain statment
+        // let marks = 70;
+        // let location = "karachi";
+
+        // if (marks > 80) {
+
+        //     alert("A1 grade");
+
+        //     if (location === "karachi") {
+        //         alert("Congo! you got scholarship")
+        //     }
+
+        // } else if (marks > 70) {
+
+        //     alert("A grade");
+
+        // } else if (marks > 60) {
+
+        //     alert("B grade");
+
+        // } else {
+        //     alert("Fail");
+        // }
+
+
+        // logical operators
+        let marks = 80;
+
+        if ((marks > 80) || (marks === 80) ) {
+
+            document.getElementById("result")
+                .innerText = "Grade A1"
+
+        } else if ((marks >= 70) && (marks <= 79)) {
+
+            document.getElementById("result")
+                .innerText = "Grade A"
+
+        } else if ((marks >= 60) && (marks <= 69)) {
+
+            document.getElementById("result")
+                .innerText = "Grade b"
+
+        } else if (marks < 60) {
+
+            document.getElementById("result")
+                .innerText = "Fail"
+
         }
+
+
+        // make a cruncey converter
+        // two text boxes one for dollar one for pkr
+        // user will write one of the boxes and will see resut accordingly
+
+        // grade chcker
+        // user will enter his mark in percentage and check his grade
+
+        // jacket checker: should I carry jacket today
+        // user will be asked for the current temprature 
+        // if 25 dont carry
+        // if less then 25 carry jacket
+        // if less then 15 carry coat
+        // if 0 or less dont go out
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
 </body>
 
