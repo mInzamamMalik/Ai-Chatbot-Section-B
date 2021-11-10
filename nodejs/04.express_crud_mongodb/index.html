@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mongodb CRUD App</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+
+    <!--  form container -->
+    <div style="margin: 10px; width: 80%;">
+
+        <div class="mb-3 row">
+            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputName">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="inputEmail">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="inputAddress" class="col-sm-2 col-form-label">Address</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputAddress">
+            </div>
+        </div>
+
+        <button onclick="createUser()" type="button" class="btn btn-primary">Primary</button>
+
+        <div id="alert" style="height: 70px;"></div>
+
+
+
+
+    </div>
+
+    <!-- data container -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Day</th>
+                            <th scope="col">Article Name</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Shares</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        function createUser() {
+            let name = document.getElementById("inputName").value
+            let email = document.getElementById("inputEmail").value
+            let address = document.getElementById("inputAddress").value
+
+            axios.post('http://localhost:3000/user', {
+                name, email, address
+            })
+                .then(function (response) {
+                    console.log(response);
+
+                    document.getElementById("inputName").value = ""
+
+                    getAllUser()
+
+                    document.getElementById("alert").innerHTML =
+                        `<div class="alert alert-success" role="alert">
+                            User Created Success!
+                        </div>`
+
+                    setTimeout(() => {
+                        document.getElementById("alert").innerHTML = ""
+                    }, 3000);
+
+                })
+
+        }
+ 
+        function getAllUser() {
+
+            axios.get('http://localhost:3000/users')
+                .then(function (response) {
+                    console.log(response);
+
+                    let users = response.data;
+
+                    document.getElementById("tableBody").innerHTML = ""
+
+                    users.map((eachUser, index) => {
+                        document.getElementById("tableBody").innerHTML +=
+                            `<tr>
+                                <th scope="row">${eachUser._id}</th>
+                                <td>${eachUser.name}</td>
+                                <td>${eachUser.email}</td>
+                                <td>${eachUser.address}</td>
+                                <td>
+                                    <button type="button" onclick="deleteUser('${eachUser._id}')" class="btn btn-danger">delete</button>
+                                </td>
+                            </tr>`
+                    })
+                })
+
+        }
+
+        function deleteUser(_id) {
+            alert("sgdgfg");
+
+            axios.delete(`http://localhost:3000/user/${_id}`)
+                .then(function (response) {
+                    console.log(response);
+
+                    getAllUser();
+
+                    document.getElementById("alert").innerHTML =
+                        `<div class="alert alert-danger" role="alert">
+                            User Deleted Success!
+                        </div>`
+
+                    setTimeout(() => {
+                        document.getElementById("alert").innerHTML = ""
+                    }, 3000);
+
+                })
+        }
+
+
+
+        getAllUser();
+
+    </script>
+
+</body>
+
+</html>
