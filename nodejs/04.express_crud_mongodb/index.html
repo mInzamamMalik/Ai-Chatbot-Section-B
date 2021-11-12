@@ -40,12 +40,9 @@
             </div>
         </div>
 
-        <button onclick="createUser()" type="button" class="btn btn-primary">Primary</button>
+        <button onclick="createUser()" type="button" class="btn btn-primary">Add User</button>
 
         <div id="alert" style="height: 70px;"></div>
-
-
-
 
     </div>
 
@@ -56,10 +53,10 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">Day</th>
-                            <th scope="col">Article Name</th>
-                            <th scope="col">Author</th>
-                            <th scope="col">Shares</th>
+                            <th scope="col">_id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Address</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -75,6 +72,9 @@
 
 
     <script>
+
+        let users = []
+
         function createUser() {
             let name = document.getElementById("inputName").value
             let email = document.getElementById("inputEmail").value
@@ -102,26 +102,27 @@
                 })
 
         }
- 
+
         function getAllUser() {
 
             axios.get('http://localhost:3000/users')
                 .then(function (response) {
                     console.log(response);
 
-                    let users = response.data;
+                    users = response.data;
 
                     document.getElementById("tableBody").innerHTML = ""
 
                     users.map((eachUser, index) => {
                         document.getElementById("tableBody").innerHTML +=
-                            `<tr>
+                            `<tr id="${eachUser._id}">
                                 <th scope="row">${eachUser._id}</th>
                                 <td>${eachUser.name}</td>
                                 <td>${eachUser.email}</td>
                                 <td>${eachUser.address}</td>
                                 <td>
-                                    <button type="button" onclick="deleteUser('${eachUser._id}')" class="btn btn-danger">delete</button>
+                                    <button type="button" onclick="editUser('${eachUser._id}', ${index})" class="btn btn-primary">Edit</button>
+                                    <button type="button" onclick="deleteUser('${eachUser._id}')" class="btn btn-danger">Delete</button>
                                 </td>
                             </tr>`
                     })
@@ -129,8 +130,27 @@
 
         }
 
+        function editUser(_id, index) {
+            console.log(_id, index);
+
+            const userObject = users[index]
+
+            console.log("userObject: ", userObject);
+
+            document.getElementById(_id).innerHTML = `
+            <tr id="${_id}"> 
+                
+                    <th scope="row">${_id}</th>
+                    <td><input type="text" id="${_id}-name" value="${userObject.name}" /></td>
+                    <td><input type="text" id="${_id}-email" value="${userObject.email}" /></td>
+                    <td><input type="text" id="${_id}-address" value="${userObject.address}" /></td>
+                    <td>
+                        <button type="button" onclick="updateUser('${_id}')" class="btn btn-success">Update</button>
+                    </td>
+                </tr>`;
+        }
+
         function deleteUser(_id) {
-            alert("sgdgfg");
 
             axios.delete(`http://localhost:3000/user/${_id}`)
                 .then(function (response) {
@@ -141,6 +161,30 @@
                     document.getElementById("alert").innerHTML =
                         `<div class="alert alert-danger" role="alert">
                             User Deleted Success!
+                        </div>`
+
+                    setTimeout(() => {
+                        document.getElementById("alert").innerHTML = ""
+                    }, 3000);
+
+                })
+        }
+
+        function updateUser(_id) {
+
+            const name = document.getElementById(`${_id}-name`).value
+            const email = document.getElementById(`${_id}-email`).value
+            const address = document.getElementById(`${_id}-address`).value
+
+            axios.put(`http://localhost:3000/user/${_id}`, { name, email, address })
+                .then(function (response) {
+                    console.log(response);
+
+                    getAllUser();
+
+                    document.getElementById("alert").innerHTML =
+                        `<div class="alert alert-success" role="alert">
+                            User Updated Success!
                         </div>`
 
                     setTimeout(() => {
